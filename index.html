@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación Digital de Graduación - Stefany Contreras Auccatoma</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --dark-olive: #0f170e;
+            --mid-olive: #182315;
+            --primary-olive: #2b3a26;
+            --light-olive: #3f5438;
+            --sage-olive: #8a9a7b;
+            --soft-sage: #a3b18a;
+            --gold-gradient: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
+            --olive-gradient: linear-gradient(180deg, #162013 0%, #0d130c 100%);
+            --silver-gradient: linear-gradient(135deg, #ffffff 0%, #e5e7eb 40%, #9ca3af 70%, #d1d5db 100%);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-olive);
+            color: #f3f4f6;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .font-cursive { font-family: 'Great Vibes', cursive; }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+
+        /* Estilos de Textos Metalizados */
+        .text-gold {
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
+
+        .text-sage {
+            color: var(--soft-sage);
+        }
+
+        .text-silver {
+            background: var(--silver-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(163, 177, 138, 0.25));
+        }
+
+        .gold-glow {
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
+        }
+
+        .olive-glow {
+            box-shadow: 0 0 25px rgba(85, 107, 47, 0.35);
+        }
+
+        /* Glassmorphism Verde Olivo Lux */
+        .glass-card {
+            background: rgba(26, 36, 23, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(163, 177, 138, 0.2);
+        }
+
+        .glass-gold-card {
+            background: rgba(33, 44, 28, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+        }
+
+        /* Sobre 3D Verde Olivo */
+        .envelope-wrapper {
+            perspective: 1000px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            background: #182315;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.9), 0 0 25px rgba(85, 107, 47, 0.3);
+            cursor: pointer;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(163, 177, 138, 0.25);
+        }
+
+        .envelope:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .flap-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 130px solid #283823;
+            transform-origin: top;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s;
+            z-index: 5;
+            filter: drop-shadow(0 6px 10px rgba(0,0,0,0.6));
+        }
+
+        .flap-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-top: 110px solid transparent;
+            border-bottom: 110px solid transparent;
+            border-left: 165px solid #1e2b1b;
+            z-index: 3;
+        }
+
+        .flap-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-top: 110px solid transparent;
+            border-bottom: 110px solid transparent;
+            border-right: 165px solid #1e2b1b;
+            z-index: 3;
+        }
+
+        .flap-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-bottom: 125px solid #182315;
+            z-index: 4;
+        }
+
+        .seal {
+            position: absolute;
+            top: 110px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 58px;
+            height: 58px;
+            background: var(--gold-gradient);
+            border-radius: 50%;
+            z-index: 6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.7), inset 0 2px 4px rgba(255,255,255,0.8);
+            transition: transform 0.6s ease, opacity 0.4s ease;
+        }
+
+        .letter-preview {
+            position: absolute;
+            bottom: 10px;
+            left: 20px;
+            right: 20px;
+            height: 180px;
+            background: #fdfbf7;
+            color: #1a2417;
+            border-radius: 8px;
+            padding: 12px;
+            z-index: 2;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .envelope.open .flap-top {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope.open .seal {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.3);
+        }
+
+        .envelope.open .letter-preview {
+            transform: translateY(-90px);
+        }
+
+        /* Tarjetas Polaroid */
+        .polaroid {
+            background: #fdfbf7;
+            padding: 10px 10px 24px 10px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.7);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .polaroid:hover {
+            transform: scale(1.05) rotate(0deg) !important;
+            z-index: 10;
+            box-shadow: 0 20px 40px rgba(163, 177, 138, 0.35);
+        }
+
+        /* Ondas del Reproductor de Música */
+        .music-bar {
+            width: 3px;
+            height: 16px;
+            background: var(--gold-gradient);
+            border-radius: 3px;
+            animation: bounce 1.2s infinite ease-in-out;
+        }
+
+        .music-bar.paused {
+            animation-play-state: paused;
+            height: 6px !important;
+        }
+
+        @keyframes bounce {
+            0%, 100% { height: 6px; }
+            50% { height: 22px; }
+        }
+
+        .music-bar:nth-child(2) { animation-delay: 0.2s; }
+        .music-bar:nth-child(3) { animation-delay: 0.4s; }
+        .music-bar:nth-child(4) { animation-delay: 0.1s; }
+
+        /* Visor Interactivo del Marco Web Original */
+        .visor-foto-web {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            aspect-ratio: 9 / 16;
+            margin: 0 auto;
+            background: #111;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        #camara-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        #foto-usuario-web {
+            position: absolute;
+            top: 14%;
+            left: 5%;
+            width: 90%;
+            height: 72%;
+            object-fit: cover;
+            z-index: 2;
+        }
+
+        #marco-png-web {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--dark-olive);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2b3a26;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center text-gray-100 p-0 sm:p-4">
+
+    <!-- REPRODUCTOR DE MÚSICA FLOTANTE -->
+    <div id="floating-player" class="fixed bottom-5 right-5 z-40 hidden transition-all duration-500 transform translate-y-10 opacity-0">
+        <div class="glass-gold-card rounded-full p-2 pr-4 flex items-center gap-3 shadow-2xl border border-amber-500/40 cursor-pointer" onclick="toggleAudio()">
+            <button class="w-10 h-10 rounded-full bg-gradient-to-r from-amber-500 to-yellow-300 text-neutral-950 flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition">
+                <i id="player-icon" class="fa-solid fa-play ml-0.5 text-sm"></i>
+            </button>
+            <div class="flex flex-col">
+                <span class="text-[10px] font-cinzel text-amber-200 tracking-widest uppercase">Graduación ALESNER</span>
+                <span class="text-[11px] font-medium text-gray-300">Música Ceremonial</span>
+            </div>
+            <!-- Ondas Sonoras -->
+            <div class="flex items-center gap-1 ml-2 h-6">
+                <div class="music-bar paused"></div>
+                <div class="music-bar paused"></div>
+                <div class="music-bar paused"></div>
+                <div class="music-bar paused"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR MÓVIL PRINCIPAL -->
+    <div class="w-full max-w-md min-h-screen sm:min-h-[880px] bg-gradient-to-b from-[#141d12] via-[#0d130c] to-[#090d08] shadow-2xl relative overflow-hidden flex flex-col border-0 sm:border border-amber-500/20 sm:rounded-3xl">
+        
+        <!-- ================= SECCIÓN 1: PORTADA / SOBRE DE LUJO ================= -->
+        <div id="envelope-section" class="min-h-screen sm:min-h-[880px] w-full flex flex-col items-center justify-between p-6 py-12 relative z-20 transition-all duration-1000">
+            
+            <div class="text-center mt-4 space-y-2">
+                <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-[#1b2718] border border-amber-500/40 flex items-center justify-center text-2xl text-amber-400 gold-glow">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <p class="text-[10px] font-cinzel tracking-[0.3em] text-amber-400 uppercase">Promoción ALESNER</p>
+                <h1 class="font-cinzel text-2xl md:text-3xl tracking-wide text-silver px-4 leading-relaxed italic">
+                    Estás invitado a la ceremonia de graduación...
+                </h1>
+            </div>
+
+            <!-- Sobre Interactivo 3D -->
+            <div class="envelope-wrapper my-auto py-6">
+                <div id="envelope" class="envelope" onclick="openEnvelope()">
+                    <div class="flap-top"></div>
+                    <div class="flap-left"></div>
+                    <div class="flap-right"></div>
+                    <div class="flap-bottom"></div>
+                    
+                    <div class="seal">
+                        <i class="fa-solid fa-graduation-cap text-neutral-950 text-xl"></i>
+                    </div>
+
+                    <div class="letter-preview">
+                        <div class="border border-dashed border-[#8a9a7b] w-full h-full p-2 flex flex-col items-center justify-center text-center bg-[#fdfbf7]">
+                            <span class="font-cinzel text-[9px] uppercase tracking-widest text-[#3f5438]">Pase Especial</span>
+                            <span class="font-cursive text-xl text-neutral-900 font-bold leading-tight">Stefany Contreras</span>
+                            <span class="text-[8px] text-[#2b3a26] font-semibold uppercase tracking-wider mt-1">5.º de Secundaria</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón de Apertura -->
+            <div class="text-center mb-6">
+                <button onclick="openEnvelope()" class="font-cinzel text-xs tracking-[0.25em] text-amber-200 uppercase py-3.5 px-8 rounded-full border border-amber-500/40 bg-gradient-to-r from-[#1b2718] via-[#283823] to-[#1b2718] hover:border-amber-400 shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 animate-pulse">
+                    <i class="fa-solid fa-envelope-open mr-2"></i> CLICK PARA ABRIR
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= SECCIÓN 2: CONTENIDO PRINCIPAL ================= -->
+        <div id="main-content" class="hidden opacity-0 transition-opacity duration-1000 flex-col w-full pb-20">
+            
+            <!-- Encabezado de la Graduada -->
+            <div class="pt-12 pb-8 text-center px-6 relative bg-gradient-to-b from-[#22301f]/80 to-transparent">
+                <div class="inline-block p-4 rounded-full bg-[#1b2718] border border-amber-500/40 mb-4 gold-glow">
+                    <i class="fa-solid fa-graduation-cap text-4xl text-amber-400"></i>
+                </div>
+                <p class="text-[10px] font-cinzel tracking-[0.3em] text-amber-400/90 mb-1 uppercase">Promoción ALESNER</p>
+                <p class="text-[11px] font-cinzel tracking-widest text-sage mb-2 uppercase">5.º de Secundaria</p>
+                
+                <h1 class="font-cursive text-4xl sm:text-5xl text-silver py-1 leading-tight">Stefany Contreras Auccatoma</h1>
+                
+                <p class="font-cinzel text-xs tracking-widest text-amber-200/90 max-w-xs mx-auto leading-relaxed uppercase border-t border-b border-amber-500/30 py-2.5 mt-3">
+                    Ceremonia de Graduación
+                </p>
+
+                <div class="mt-4">
+                    <button onclick="downloadVCard()" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1b2718] text-[11px] font-cinzel text-amber-300 border border-amber-500/40 hover:border-amber-400 transition hover:scale-105 shadow-md">
+                        <i class="fa-solid fa-address-card text-amber-400"></i> Guardar Contacto de Stefany (VCF)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Galería Polaroid -->
+            <div class="px-6 py-2 space-y-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="polaroid transform -rotate-3 rounded-sm" onclick="openLightbox('foto1.jpg', 'Promoción ALESNER ✨')">
+                        <div class="aspect-square bg-neutral-200 overflow-hidden">
+                            <img src="/img/foto1.jpg" alt="Stefany Contreras 1" class="w-full h-full object-cover">
+                        </div>
+                        <p class="font-cursive text-center text-[#1b2718] text-lg mt-2">Promoción ALESNER ✨</p>
+                    </div>
+                    <div class="polaroid transform rotate-3 rounded-sm" onclick="openLightbox('foto2.jpg', 'Metas Cumplidas 🎓')">
+                        <div class="aspect-square bg-neutral-200 overflow-hidden">
+                            <img src="/img/foto2.jpg" alt="Stefany Contreras 2" class="w-full h-full object-cover">
+                        </div>
+                        <p class="font-cursive text-center text-[#1b2718] text-lg mt-2">Metas Cumplidas 🎓</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Línea de Tiempo Escolar -->
+            <div class="px-6 py-6 border-t border-b border-amber-500/20 glass-card mx-4 rounded-2xl my-4">
+                <div class="text-center mb-4">
+                    <p class="text-[10px] font-cinzel text-amber-400 tracking-widest uppercase">Nuestra Trayectoria</p>
+                    <h3 class="font-cinzel text-base text-silver">Línea de Tiempo ALESNER</h3>
+                </div>
+
+                <div class="flex justify-between items-center gap-1 overflow-x-auto pb-2 border-b border-amber-500/20">
+                    <button onclick="showYearMemory(1, true)" id="year-btn-1" class="px-2.5 py-1 rounded-full text-[10px] font-cinzel bg-amber-400 text-neutral-950 font-bold transition">1.º Año</button>
+                    <button onclick="showYearMemory(2, true)" id="year-btn-2" class="px-2.5 py-1 rounded-full text-[10px] font-cinzel text-sage hover:text-amber-200 transition">2.º Año</button>
+                    <button onclick="showYearMemory(3, true)" id="year-btn-3" class="px-2.5 py-1 rounded-full text-[10px] font-cinzel text-sage hover:text-amber-200 transition">3.er Año</button>
+                    <button onclick="showYearMemory(4, true)" id="year-btn-4" class="px-2.5 py-1 rounded-full text-[10px] font-cinzel text-sage hover:text-amber-200 transition">4.º Año</button>
+                    <button onclick="showYearMemory(5, true)" id="year-btn-5" class="px-2.5 py-1 rounded-full text-[10px] font-cinzel text-sage hover:text-amber-200 transition">5.º Año</button>
+                </div>
+
+                <div id="memory-content" class="mt-4 text-center space-y-2">
+                    <p id="memory-title" class="font-cursive text-xl text-amber-300">Primeros Pasos en Secundaria (2022)</p>
+                    <p id="memory-desc" class="text-xs text-gray-300 italic leading-relaxed">"Iniciamos un nuevo viaje conociendo grandes amigos y adaptándonos a nuevos retos académicos."</p>
+                </div>
+            </div>
+
+            <!-- Mensaje de Agradecimiento -->
+            <div class="px-8 py-4 text-center">
+                <p class="font-playfair italic text-sm text-gray-200 leading-relaxed">
+                    "Hoy concluye una etapa inolvidable llena de aprendizajes, risas y grandes amistades. Queremos celebrar el inicio de un futuro brillante en compañía de las personas que más amamos."
+                </p>
+            </div>
+
+            <!-- Padrinos y Tutor -->
+            <div class="px-6 py-6 border-t border-b border-amber-500/20 glass-card mx-4 rounded-2xl my-2">
+                <h3 class="font-cinzel text-xs tracking-[0.25em] text-amber-400 text-center uppercase mb-4">Honor & Agradecimientos</h3>
+                
+                <div class="space-y-3 text-center text-xs">
+                    <div class="bg-[#121a10]/80 p-3 rounded-xl border border-amber-500/20">
+                        <span class="text-[10px] font-cinzel text-amber-300/90 uppercase block tracking-wider">Padrinos de Promoción</span>
+                        <p class="font-medium text-gray-200 mt-0.5">Sr. Jose Padrino de Honor & Sr. Victor Padrino de Honor</p>
+                    </div>
+                    
+                    <div class="bg-[#121a10]/80 p-3 rounded-xl border border-amber-500/20">
+                        <span class="text-[10px] font-cinzel text-amber-300/90 uppercase block tracking-wider">Tutor de Promoción</span>
+                        <p class="font-medium text-gray-200 mt-0.5">Profesor Tutor DEYVIS</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cuenta Regresiva -->
+            <div class="px-6 py-6 text-center my-2">
+                <h3 class="font-cinzel text-xs tracking-[0.2em] text-amber-400 uppercase mb-4">Tiempo restante para el gran día</h3>
+                <div class="grid grid-cols-4 gap-2 text-center">
+                    <div class="glass-card rounded-xl p-3 border border-amber-500/20">
+                        <span id="days" class="font-cinzel text-2xl font-bold text-amber-200 block">00</span>
+                        <span class="text-[9px] uppercase tracking-wider text-sage">Días</span>
+                    </div>
+                    <div class="glass-card rounded-xl p-3 border border-amber-500/20">
+                        <span id="hours" class="font-cinzel text-2xl font-bold text-amber-200 block">00</span>
+                        <span class="text-[9px] uppercase tracking-wider text-sage">Horas</span>
+                    </div>
+                    <div class="glass-card rounded-xl p-3 border border-amber-500/20">
+                        <span id="minutes" class="font-cinzel text-2xl font-bold text-amber-200 block">00</span>
+                        <span class="text-[9px] uppercase tracking-wider text-sage">Min</span>
+                    </div>
+                    <div class="glass-card rounded-xl p-3 border border-amber-500/20">
+                        <span id="seconds" class="font-cinzel text-2xl font-bold text-amber-200 block">00</span>
+                        <span class="text-[9px] uppercase tracking-wider text-sage">Seg</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fecha y Hora -->
+            <div class="px-6 py-8 border-t border-amber-500/20 text-center glass-card my-2 mx-4 rounded-2xl">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-[#1b2718] flex items-center justify-center text-amber-400 border border-amber-500/40">
+                    <i class="fa-regular fa-calendar-check text-xl"></i>
+                </div>
+                <h2 class="font-cinzel text-xl text-silver mb-1">Fecha & Hora</h2>
+                <p class="font-semibold text-gray-200 text-base">SÁBADO, 26 DE DICIEMBRE DE 2026</p>
+                <p class="text-xs text-amber-400/90 mt-1 uppercase tracking-widest font-cinzel">Hora: 4:00 PM</p>
+                
+                <a target="_blank" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Graduaci%C3%B3n+Stefany+Contreras+Auccatoma+-+Promoci%C3%B3n+ALESNER&dates=20261226T160000/20261226T220000&details=Ceremonia+de+Graduaci%C3%B3n+de+5to+de+Secundaria&location=Local+Zambrano" 
+                class="inline-flex items-center gap-2 mt-5 px-5 py-2.5 rounded-full bg-[#1b2718] hover:bg-[#253621] text-xs tracking-wider uppercase border border-amber-500/30 text-amber-200 transition-all hover:scale-105 shadow-md">
+                    <i class="fa-regular fa-calendar-plus"></i>
+                    Agregar a Google Calendar
+                </a>
+            </div>
+
+            <!-- Programa -->
+            <div class="px-6 py-8 border-t border-amber-500/20 glass-card my-2 mx-4 rounded-2xl">
+                <div class="text-center mb-6">
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-[#1b2718] flex items-center justify-center text-amber-400 border border-amber-500/40">
+                        <i class="fa-solid fa-clock text-xl"></i>
+                    </div>
+                    <h2 class="font-cinzel text-xl text-silver">Programa del Evento</h2>
+                    <p class="text-[11px] text-sage">Orden del Día - Graduación ALESNER</p>
+                </div>
+
+                <div class="space-y-4 relative before:absolute before:inset-0 before:left-3.5 before:w-0.5 before:bg-gradient-to-b before:from-amber-400 before:to-[#1b2718] text-xs">
+                    
+                    <div class="flex items-start gap-4 relative pl-8">
+                        <div class="absolute left-2 top-1.5 w-3 h-3 rounded-full bg-amber-400 ring-4 ring-[#10170e]"></div>
+                        <div>
+                            <span class="font-cinzel text-amber-300 font-bold text-xs">04:00 PM</span>
+                            <h4 class="font-medium text-gray-200 text-sm">Recepción e Ingreso</h4>
+                            <p class="text-gray-400 text-[11px]">Bienvenida a invitados y graduados en Local Zambrano</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 relative pl-8">
+                        <div class="absolute left-2 top-1.5 w-3 h-3 rounded-full bg-amber-400 ring-4 ring-[#10170e]"></div>
+                        <div>
+                            <span class="font-cinzel text-amber-300 font-bold text-xs">04:30 PM</span>
+                            <h4 class="font-medium text-gray-200 text-sm">Ceremonia Central</h4>
+                            <p class="text-gray-400 text-[11px]">Entrega de Diplomas e Insignias de Graduación</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 relative pl-8">
+                        <div class="absolute left-2 top-1.5 w-3 h-3 rounded-full bg-amber-400 ring-4 ring-[#10170e]"></div>
+                        <div>
+                            <span class="font-cinzel text-amber-300 font-bold text-xs">05:30 PM</span>
+                            <h4 class="font-medium text-gray-200 text-sm">Brindis de Honor</h4>
+                            <p class="text-gray-400 text-[11px]">Palabras de honor de la Promoción ALESNER y Padrinos</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 relative pl-8">
+                        <div class="absolute left-2 top-1.5 w-3 h-3 rounded-full bg-amber-400 ring-4 ring-[#10170e]"></div>
+                        <div>
+                            <span class="font-cinzel text-amber-300 font-bold text-xs">06:30 PM</span>
+                            <h4 class="font-medium text-gray-200 text-sm">Cena y Fiesta</h4>
+                            <p class="text-gray-400 text-[11px]">Cena de gala, baile de graduación y celebración</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Ubicación -->
+            <div class="px-6 py-8 border-t border-amber-500/20 text-center glass-card my-2 mx-4 rounded-2xl">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-[#1b2718] flex items-center justify-center text-amber-400 border border-amber-500/40">
+                    <i class="fa-solid fa-location-dot text-xl"></i>
+                </div>
+                <h2 class="font-cinzel text-xl text-silver mb-1">Lugar de Celebración</h2>
+                <p class="font-semibold text-gray-200 text-base">Local Zambrano</p>
+                <p class="text-xs text-sage mt-1">Lugar especial para el evento de graduación</p>
+                
+                <div class="flex flex-wrap justify-center gap-2 mt-4">
+                    <a href="https://maps.google.com/?q=Local+Zambrano" target="_blank" 
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1b2718] text-xs text-gray-200 border border-amber-500/30 hover:border-amber-400 transition">
+                        <i class="fa-solid fa-map-pin text-amber-400"></i> Ver en Google Maps
+                    </a>
+                    <a href="https://waze.com/ul?q=Local+Zambrano" target="_blank" 
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1b2718] text-xs text-gray-200 border border-amber-500/30 hover:border-amber-400 transition">
+                        <i class="fa-solid fa-route text-amber-400"></i> Abrir Waze
+                    </a>
+                </div>
+
+                <div class="mt-5 p-3 rounded-xl bg-[#121a10]/80 border border-amber-500/20 text-left text-[11px] space-y-2 text-gray-300">
+                    <div class="flex items-center gap-2 text-amber-300 font-semibold">
+                        <i class="fa-solid fa-square-parking text-sm"></i>
+                        <span>Estacionamiento & Seguridad</span>
+                    </div>
+                    <p>• Cuenta con zona de parqueo privado para invitados.</p>
+                    <p>• Clima proyectado: Templado por la tarde / fresco por la noche (se recomienda llevar saco o abrigo).</p>
+                </div>
+            </div>
+
+            <!-- Código de Vestimenta -->
+            <div class="px-6 py-8 border-t border-amber-500/20 text-center bg-[#121a10]">
+                <h2 class="font-cinzel text-lg text-amber-400 mb-1 uppercase tracking-widest">Código de Vestimenta</h2>
+                <p class="text-xs text-sage mb-4">Formal Elegante / Paleta de Colores Recomendada</p>
+                
+                <div class="flex justify-center items-center gap-3 mb-6">
+                    <div class="flex flex-col items-center">
+                        <div class="w-8 h-8 rounded-full bg-[#2b3a26] border border-amber-400 shadow"></div>
+                        <span class="text-[9px] text-gray-300 mt-1">Verde Olivo</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-8 h-8 rounded-full bg-[#bf953f] border border-amber-200 shadow"></div>
+                        <span class="text-[9px] text-gray-300 mt-1">Dorado</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-8 h-8 rounded-full bg-[#1a1a1a] border border-gray-600 shadow"></div>
+                        <span class="text-[9px] text-gray-300 mt-1">Negro/Terno</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-8 h-8 rounded-full bg-[#e5e7eb] border border-white shadow"></div>
+                        <span class="text-[9px] text-gray-300 mt-1">Blanco/Marfil</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-center items-center gap-8 text-neutral-300">
+                    <div class="flex flex-col items-center">
+                        <div class="w-12 h-12 rounded-full bg-[#1b2718] border border-amber-500/30 flex items-center justify-center text-xl text-amber-300 mb-2">
+                            <i class="fa-solid fa-user-tie"></i>
+                        </div>
+                        <span class="text-[11px] font-cinzel text-gray-200">Caballeros</span>
+                        <span class="text-[10px] text-sage">Terno Formal / Oscuro</span>
+                    </div>
+                    <div class="w-px h-12 bg-amber-500/20"></div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-12 h-12 rounded-full bg-[#1b2718] border border-amber-500/30 flex items-center justify-center text-xl text-amber-300 mb-2">
+                            <i class="fa-solid fa-person-dress"></i>
+                        </div>
+                        <span class="text-[11px] font-cinzel text-gray-200">Damas</span>
+                        <span class="text-[10px] text-sage">Vestido de Gala</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pase de Entrada Digital VIP -->
+            <div class="px-6 py-8 border-t border-amber-500/20">
+                <div class="glass-gold-card rounded-2xl p-6 relative overflow-hidden border border-amber-500/40 text-center">
+                    <div class="absolute -top-10 -right-10 w-24 h-24 bg-amber-500/10 rounded-full blur-xl"></div>
+                    <p class="text-[10px] font-cinzel tracking-[0.2em] text-amber-400 uppercase mb-1">Acceso Personalizado</p>
+                    <h3 class="font-cinzel text-base text-white mb-1">Pase Digital VIP</h3>
+                    <p class="text-[11px] text-amber-200 font-cursive mb-3">Stefany Contreras Auccatoma</p>
+                    
+                    <div class="bg-white p-3 rounded-xl inline-block shadow-lg my-1">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=Stefany-Contreras-Auccatoma-ALESNER-Graduacion" 
+                            alt="Código QR Stefany Contreras" class="w-32 h-32">
+                    </div>
+                    
+                    <p class="text-[11px] text-gray-300 font-mono mt-3">PROMO-ALESNER-VERDE-OLIVO</p>
+                    <p class="text-[10px] text-sage mt-1">Presenta este pase digital en el ingreso al Local Zambrano</p>
+                </div>
+            </div>
+
+            <!-- Trivia -->
+            <div class="px-6 py-8 border-t border-amber-500/20 glass-card my-2 mx-4 rounded-2xl text-center">
+                <div class="w-12 h-12 mx-auto mb-2 rounded-full bg-[#1b2718] flex items-center justify-center text-amber-400 border border-amber-500/40">
+                    <i class="fa-solid fa-gamepad text-xl"></i>
+                </div>
+                <h2 class="font-cinzel text-lg text-silver">¿Cuánto conoces a Stefany?</h2>
+                <p class="text-xs text-sage mb-4">Ponte a prueba respondiendo esta breve trivia</p>
+
+                <div id="trivia-container" class="bg-[#121a10] p-4 rounded-xl border border-amber-500/20 text-left text-xs space-y-3">
+                    <p id="trivia-question" class="font-semibold text-amber-200">1. ¿Cuál es el color distintivo elegido para esta promoción?</p>
+                    <div id="trivia-options" class="space-y-2">
+                        <button onclick="answerTrivia(0)" class="w-full text-left p-2.5 rounded-lg bg-[#1b2718] border border-amber-500/20 hover:border-amber-400 text-gray-200 transition">A) Azul Marino y Plata</button>
+                        <button onclick="answerTrivia(1)" class="w-full text-left p-2.5 rounded-lg bg-[#1b2718] border border-amber-500/20 hover:border-amber-400 text-gray-200 transition">B) Verde Olivo</button>
+                        <button onclick="answerTrivia(2)" class="w-full text-left p-2.5 rounded-lg bg-[#1b2718] border border-amber-500/20 hover:border-amber-400 text-gray-200 transition">C) Rojo Vino y Oro</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Creador de Foto Web con Marco -->
+            <div class="px-6 py-8 border-t border-amber-500/20 glass-card mx-4 rounded-2xl text-center space-y-4">
+                <div class="w-12 h-12 mx-auto rounded-full bg-[#1b2718] flex items-center justify-center text-amber-400 border border-amber-500/40">
+                    <i class="fa-solid fa-wand-magic-sparkles text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="font-cinzel text-lg text-silver">Crea tu Foto con el Marco ALESNER</h2>
+                    <p class="text-xs text-sage">Toma una foto o súbela para colocarla detrás del marco oficial</p>
+                </div>
+
+                <div class="visor-foto-web" id="visor-web">
+                    <img id="foto-usuario-web" src="" alt="Sube tu foto" style="display:none;">
+                    <img id="marco-png-web" src="marco.png" alt="Marco ALESNER">
+                </div>
+
+                <div class="space-y-2 pt-2">
+                    <label class="inline-block w-full py-2.5 px-4 bg-[#1b2718] border border-amber-500/40 text-amber-300 font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer hover:border-amber-400 transition shadow-md">
+                        <i class="fa-solid fa-camera mr-2"></i> Tomar Foto con Cámara
+                        <input type="file" accept="image/*" capture="environment" class="hidden" onchange="cargarFotoWeb(event)">
+                    </label>
+
+                    <label class="inline-block w-full py-3 px-4 bg-gradient-to-r from-amber-200 via-amber-400 to-amber-500 text-neutral-950 font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer hover:brightness-110 shadow-lg transition">
+                        <i class="fa-solid fa-upload mr-2"></i> Subir desde la Galería
+                        <input type="file" accept="image/*" class="hidden" onchange="cargarFotoWeb(event)">
+                    </label>
+
+                    <button id="btn-descargar-foto" onclick="descargarFotoConMarco()" class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg transition hidden">
+                        <i class="fa-solid fa-download mr-2"></i> Descargar Mi Foto con el Marco 📥
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 pt-2">
+                    <a href="marco.png" download class="p-3 rounded-xl bg-[#1b2718] border border-amber-500/20 hover:border-amber-400 text-xs text-amber-200 flex flex-col items-center justify-center gap-1 transition">
+                        <i class="fa-solid fa-download text-lg text-amber-400"></i>
+                        <span>Descargar Marco</span>
+                    </a>
+                    <a href="https://photos.app.goo.gl/qerxTjUc3KD4kXc97" target="_blank" class="p-3 rounded-xl bg-[#1b2718] border border-amber-500/20 hover:border-amber-400 text-xs text-amber-200 flex flex-col items-center justify-center gap-1 transition">
+                        <i class="fa-solid fa-cloud-arrow-up text-lg text-blue-400"></i>
+                        <span>Subir al Álbum</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Lluvia de Sobres / Regalos -->
+            <div class="px-6 py-6 border-t border-amber-500/20 text-center">
+                <button onclick="toggleGifts()" class="w-full glass-card p-4 rounded-xl border border-amber-500/20 flex items-center justify-between text-left hover:border-amber-500/40 transition">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-[#1b2718] flex items-center justify-center text-amber-400 border border-amber-500/30">
+                            <i class="fa-solid fa-gift"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-cinzel text-sm text-gray-200">Lluvia de Sobres / Presentes</h4>
+                            <p class="text-[11px] text-sage">Ver información de obsequios y transferencias</p>
+                        </div>
+                    </div>
+                    <i id="gift-chevron" class="fa-solid fa-chevron-down text-gray-400 transition-transform"></i>
+                </button>
+
+                <div id="gift-details" class="hidden mt-3 p-5 glass-card rounded-xl text-left text-xs space-y-4 border border-amber-500/20">
+                    <p class="text-gray-300 italic text-center leading-relaxed">
+                        "El mejor regalo es contar con tu compañía en este día tan especial. Si deseas tener un detalle adicional con Stefany, puedes realizarlo mediante sobre el día del evento o por este medio:"
+                    </p>
+                    
+                    <div class="space-y-3 pt-2">
+                        <div class="bg-[#121a10]/90 p-3 rounded-lg border border-amber-500/20 flex items-center justify-between">
+                            <div>
+                                <span class="text-amber-400 font-semibold block">Yape </span>
+                                <span class="text-gray-200 font-mono text-sm">+51 916 369 027</span>
+                                <span class="text-[10px] text-sage block">Titular: Nelly Auccatoma</span>
+                            </div>
+                            <button onclick="copyToClipboard('+51 916 369 027', 'Número copiado')" class="px-3 py-1.5 bg-[#1b2718] hover:bg-[#253621] rounded text-[10px] text-amber-300 border border-amber-500/30">
+                                Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Muro de Buenos Deseos -->
+            <div class="px-6 py-8 border-t border-amber-500/20 text-center glass-card my-2 mx-4 rounded-2xl">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-[#1b2718] flex items-center justify-center text-amber-400 border border-amber-500/40">
+                    <i class="fa-solid fa-comment-dots text-xl"></i>
+                </div>
+                <h2 class="font-cinzel text-xl text-silver mb-1">Muro de Buenos Deseos</h2>
+                <p class="text-xs text-sage mb-4">¡Deja tus felicidades públicas en esta invitación y por WhatsApp!</p>
+
+                <div class="space-y-3 text-left">
+                    <input type="text" id="wish-sender" placeholder="Tu Nombre o Familia" 
+                        class="w-full bg-[#121a10] border border-amber-500/30 rounded-xl px-3 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400">
+                    
+                    <textarea id="wish-message" rows="2" placeholder="Escribe tus palabras de felicitación..." 
+                            class="w-full bg-[#121a10] border border-amber-500/30 rounded-xl px-3 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400 resize-none"></textarea>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <button onclick="addWishToWall()" 
+                                class="w-full py-2.5 rounded-xl bg-[#1b2718] hover:bg-[#283823] border border-amber-500/40 text-amber-300 font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-pen-to-square"></i> Publicar en el Muro
+                        </button>
+                        <button onclick="sendWishToWhatsApp()" 
+                                class="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-700 to-green-600 hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-lg">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> Enviar a WhatsApp
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-6 text-left">
+                    <h4 class="font-cinzel text-xs text-amber-400 uppercase mb-3 tracking-wider">Mensajes Recientes</h4>
+                    <div id="wishes-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confirmación Asistencia RSVP -->
+            <div class="px-6 py-10 border-t border-amber-500/20 text-center bg-gradient-to-b from-[#141d12] via-[#0d130c] to-black">
+                <h2 class="font-cinzel text-2xl text-silver mb-2">Confirma tu Asistencia</h2>
+                <p class="text-xs text-sage max-w-xs mx-auto mb-6">Agradecemos confirmar tu respuesta para el evento de graduación.</p>
+                
+                <button onclick="openRSVPModal()" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-amber-200 via-amber-400 to-amber-500 text-neutral-950 font-bold text-xs uppercase tracking-widest hover:brightness-110 transition shadow-2xl hover:scale-105 active:scale-95">
+                    <i class="fa-solid fa-paper-plane mr-2"></i> Confirmar Asistencia
+                </button>
+            </div>
+
+            <div class="text-center py-6 text-[10px] text-sage/70 border-t border-amber-500/10 font-cinzel">
+                <p>Graduación Stefany Contreras Auccatoma © 2026</p>
+            </div>
+        </div>
+
+        <!-- ================= MODAL RSVP INTERACTIVO ================= -->
+        <div id="rsvp-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 transition-all duration-300">
+            <div class="glass-card rounded-2xl p-6 w-full max-w-sm shadow-2xl relative border border-amber-500/40 bg-[#172215]">
+                
+                <button onclick="closeRSVPModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+                <div class="text-center mb-6">
+                    <h3 class="font-cinzel text-lg text-amber-400 mb-2">Confirmar Asistencia</h3>
+                    <p class="text-xs text-gray-200 leading-relaxed">
+                        Nos encantará contar con tu presencia para acompañar a Stefany Contreras en este momento tan especial.
+                    </p>
+                </div>
+
+                <form id="rsvp-form" onsubmit="handleRSVPSubmit(event)" class="space-y-4 text-left">
+                    <div>
+                        <label class="block text-[11px] font-medium text-amber-200 uppercase tracking-wider mb-1">Nombre y Apellido</label>
+                        <input type="text" id="rsvp-name" required placeholder="Escribe tu nombre completo" 
+                            class="w-full bg-[#0f170e] border border-amber-500/30 rounded-lg px-3 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400">
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-medium text-amber-200 uppercase tracking-wider mb-1">¿Asistirás al evento?</label>
+                        <select id="rsvp-status" required class="w-full bg-[#0f170e] border border-amber-500/30 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+                            <option value="">Selecciona una opción</option>
+                            <option value="Sí, con mucho gusto asistiré">¡Sí, ahí estaré con mucho gusto!</option>
+                            <option value="No podré asistir">Lamentablemente no podré asistir</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-medium text-amber-200 uppercase tracking-wider mb-1">N° de Acompañantes</label>
+                        <select id="rsvp-guests" class="w-full bg-[#0f170e] border border-amber-500/30 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+                            <option value="0">Solo yo (0 acompañantes)</option>
+                            <option value="1">1 Acompañante</option>
+                            <option value="2">2 Acompañantes</option>
+                        </select>
+                    </div>
+
+                    <div class="pt-2 flex flex-col gap-2">
+                        <button type="submit" class="w-full py-3 bg-gradient-to-r from-amber-200 to-amber-400 text-neutral-950 font-bold text-xs uppercase tracking-wider rounded-lg hover:brightness-110 transition">
+                            Enviar Confirmación por WhatsApp
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <!-- MODAL LIGHTBOX -->
+        <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4" onclick="closeLightbox()">
+            <div class="relative max-w-sm w-full bg-[#fdfbf7] p-3 rounded-lg shadow-2xl text-center" onclick="event.stopPropagation()">
+                <button onclick="closeLightbox()" class="absolute -top-10 right-0 text-white text-2xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <img id="lightbox-img" src="" alt="Foto Aumentada" class="w-full h-80 object-cover rounded">
+                <p id="lightbox-caption" class="font-cursive text-[#1b2718] text-2xl mt-3"></p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- AUDIO LOCAL -->
+    <audio id="bg-music" loop>
+        <source src="audio/musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- NOTIFICACIÓN TOAST -->
+    <div id="toast" class="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 bg-[#1b2718] border border-amber-400 text-amber-200 px-4 py-2 rounded-full text-xs font-medium shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none">
+        Texto copiado al portapapeles
+    </div>
+
+    <!-- SCRIPT PRINCIPAL -->
+    <script>
+        // Abrir el sobre y lanzar confetti
+        function openEnvelope() {
+            const envelope = document.getElementById('envelope');
+            const envelopeSection = document.getElementById('envelope-section');
+            const mainContent = document.getElementById('main-content');
+            const floatingPlayer = document.getElementById('floating-player');
+            const bgMusic = document.getElementById('bg-music');
+
+            envelope.classList.add('open');
+
+            setTimeout(() => {
+                triggerGoldConfetti();
+            }, 300);
+
+            // Reproducir audio local
+            if (bgMusic) {
+                bgMusic.play().then(() => {
+                    updateAudioState(true);
+                }).catch(e => console.log("Auto-play prevenido por el navegador"));
+            }
+
+            setTimeout(() => {
+                floatingPlayer.classList.remove('hidden');
+                setTimeout(() => {
+                    floatingPlayer.classList.remove('translate-y-10', 'opacity-0');
+                }, 50);
+            }, 800);
+
+            setTimeout(() => {
+                envelopeSection.classList.add('opacity-0');
+                setTimeout(() => {
+                    envelopeSection.style.display = 'none';
+                    mainContent.classList.remove('hidden');
+                    setTimeout(() => {
+                        mainContent.classList.remove('opacity-0');
+                    }, 50);
+                }, 800);
+            }, 1200);
+        }
+
+        function triggerGoldConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 90,
+                    spread: 80,
+                    origin: { y: 0.6 },
+                    colors: ['#bf953f', '#fcf6ba', '#556b2f', '#8a9a7b', '#ffffff']
+                });
+
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 50,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                        colors: ['#bf953f', '#556b2f', '#fcf6ba']
+                    });
+                    confetti({
+                        particleCount: 50,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                        colors: ['#bf953f', '#8a9a7b', '#ffffff']
+                    });
+                }, 300);
+            }
+        }
+
+        // Manejo de Música Local
+        let isPlaying = false;
+        function toggleAudio() {
+            const bgMusic = document.getElementById('bg-music');
+            if (!bgMusic) return;
+
+            if (isPlaying) {
+                bgMusic.pause();
+                updateAudioState(false);
+            } else {
+                bgMusic.play().catch(e => console.log("Error al reproducir"));
+                updateAudioState(true);
+            }
+        }
+
+        function updateAudioState(playing) {
+            isPlaying = playing;
+            const icon = document.getElementById('player-icon');
+            const bars = document.querySelectorAll('.music-bar');
+
+            if (playing) {
+                icon.className = 'fa-solid fa-pause';
+                bars.forEach(bar => bar.classList.remove('paused'));
+            } else {
+                icon.className = 'fa-solid fa-play ml-0.5';
+                bars.forEach(bar => bar.classList.add('paused'));
+            }
+        }
+
+        // Cuenta Regresiva
+        const targetDate = new Date("December 26, 2026 16:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById("days").innerText = days < 10 ? '0' + days : days;
+                document.getElementById("hours").innerText = hours < 10 ? '0' + hours : hours;
+                document.getElementById("minutes").innerText = minutes < 10 ? '0' + minutes : minutes;
+                document.getElementById("seconds").innerText = seconds < 10 ? '0' + seconds : seconds;
+            } else {
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Lightbox
+        function openLightbox(src, caption) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox-caption').innerText = caption;
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Línea de tiempo escolar
+        const memories = {
+            1: { title: "Primeros Pasos en Secundaria (1.º Año)", desc: "Iniciamos un nuevo viaje conociendo grandes amigos y adaptándonos a nuevos retos académicos." },
+            2: { title: "Consolidando Amistades (2.º Año)", desc: "Un año de proyectos en equipo, descubriendo nuestros talentos y compartiendo momentos inolvidables." },
+            3: { title: "Etapa de Crecimiento (3.er Año)", desc: "Afrontamos mayores desafíos académicos fortaleciendo la unión de la Promoción ALESNER." },
+            4: { title: "Liderazgo Escolar (4.º Año)", desc: "Comenzamos a planificar nuestro gran cierre de etapa, apoyándonos en cada examen y evento escolar." },
+            5: { title: "Nuestra Cúspide y Éxito (5.º Año)", desc: "Llegó el ansiado año de graduación: risas, recuerdos compartidos y listos para triunfar." }
+        };
+
+        let currentYear = 1;
+        let timelineInterval;
+
+        function showYearMemory(year, manual = false) {
+            currentYear = year;
+            for(let i = 1; i <= 5; i++) {
+                const btn = document.getElementById(`year-btn-${i}`);
+                if (i === year) {
+                    btn.className = "px-2.5 py-1 rounded-full text-[10px] font-cinzel bg-amber-400 text-neutral-950 font-bold transition";
+                } else {
+                    btn.className = "px-2.5 py-1 rounded-full text-[10px] font-cinzel text-sage hover:text-amber-200 transition";
+                }
+            }
+            document.getElementById('memory-title').innerText = memories[year].title;
+            document.getElementById('memory-desc').innerText = `"${memories[year].desc}"`;
+
+            if (manual) {
+                resetTimelineTimer();
+            }
+        }
+
+        function startTimelineAutoPlay() {
+            timelineInterval = setInterval(() => {
+                currentYear++;
+                if (currentYear > 5) {
+                    currentYear = 1;
+                }
+                showYearMemory(currentYear, false);
+            }, 4500);
+        }
+
+        function resetTimelineTimer() {
+            clearInterval(timelineInterval);
+            startTimelineAutoPlay();
+        }
+
+        // Creador de Fotos
+        let imagenUsuarioGlobal = null;
+
+        function cargarFotoWeb(event) {
+            const archivo = event.target.files[0];
+            if (archivo) {
+                const lector = new FileReader();
+                lector.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        imagenUsuarioGlobal = img;
+                        const fotoUsuario = document.getElementById('foto-usuario-web');
+                        fotoUsuario.src = e.target.result;
+                        fotoUsuario.style.display = 'block';
+                        document.getElementById('btn-descargar-foto').classList.remove('hidden');
+                        showToast('¡Foto cargada correctamente!');
+                    }
+                    img.src = e.target.result;
+                }
+                lector.readAsDataURL(archivo);
+            }
+        }
+
+        function descargarFotoConMarco() {
+            if (!imagenUsuarioGlobal) return;
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = 1080;
+            canvas.height = 1920;
+
+            const x = canvas.width * 0.05;   
+            const y = canvas.height * 0.14;  
+            const w = canvas.width * 0.90;   
+            const h = canvas.height * 0.72;  
+
+            ctx.drawImage(imagenUsuarioGlobal, x, y, w, h);
+
+            const marcoImg = new Image();
+            marcoImg.crossOrigin = "anonymous";
+            marcoImg.onload = function() {
+                ctx.drawImage(marcoImg, 0, 0, canvas.width, canvas.height);
+                
+                const enlace = document.createElement('a');
+                enlace.download = 'Graduacion_Stefany_ALESNER.png';
+                enlace.href = canvas.toDataURL('image/png');
+                enlace.click();
+                showToast('¡Foto descargada con éxito en alta calidad! 📥');
+            };
+            marcoImg.src = document.getElementById('marco-png-web').src;
+        }
+
+        // Descargar VCF
+        function downloadVCard() {
+            const vcardData = 
+`BEGIN:VCARD
+VERSION:3.0
+FN:Stefany Contreras Auccatoma
+ORG:Promoción ALESNER 2026
+TITLE:Graduada
+NOTE:Graduación 5to Secundaria - Local Zambrano
+END:VCARD`;
+
+            const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.setAttribute('download', 'Stefany_Contreras_Graduacion.vcf');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Trivia
+        const triviaData = [
+            {
+                q: "1. ¿Cuál es el color distintivo elegido para esta ceremonia?",
+                options: ["A) Azul Marino y Plata", "B) Verde Olivo ", "C) Rojo Vino y Oro"],
+                correct: 1
+            },
+            {
+                q: "2. ¿A qué promoción pertenece Stefany?",
+                options: ["A) Promoción ALESNER", "B) Promoción LUMINIS", "C) Promoción NOCTIS"],
+                correct: 0
+            },
+            {
+                q: "3. ¿En qué local se llevará a cabo la fiesta de graduación?",
+                options: ["A) Centro de Convenciones", "B) Club Campestre", "C) Local Zambrano"],
+                correct: 2
+            }
+        ];
+
+        let currentTriviaIndex = 0;
+        let triviaScore = 0;
+
+        function answerTrivia(selectedIndex) {
+            if (selectedIndex === triviaData[currentTriviaIndex].correct) {
+                triviaScore++;
+            }
+
+            currentTriviaIndex++;
+
+            if (currentTriviaIndex < triviaData.length) {
+                document.getElementById('trivia-question').innerText = triviaData[currentTriviaIndex].q;
+                const opts = triviaData[currentTriviaIndex].options;
+                document.getElementById('trivia-options').innerHTML = `
+                    <button onclick="answerTrivia(0)" class="w-full text-left p-2.5 rounded-lg bg-[#1b2718] border border-amber-500/20 hover:border-amber-400 text-gray-200 transition">${opts[0]}</button>
+                    <button onclick="answerTrivia(1)" class="w-full text-left p-2.5 rounded-lg bg-[#1b2718] border border-amber-500/20 hover:border-amber-400 text-gray-200 transition">${opts[1]}</button>
+                    <button onclick="answerTrivia(2)" class="w-full text-left p-2.5 rounded-lg bg-[#1b2718] border border-amber-500/20 hover:border-amber-400 text-gray-200 transition">${opts[2]}</button>
+                `;
+            } else {
+                document.getElementById('trivia-container').innerHTML = `
+                    <div class="text-center py-2 space-y-2">
+                        <p class="font-cinzel text-amber-300 font-bold text-sm">¡Completaste la Trivia!</p>
+                        <p class="text-xs text-gray-200">Acertaste <strong>${triviaScore} de 3</strong> preguntas.</p>
+                        <p class="text-[11px] text-sage italic">¡Gracias por celebrar con Stefany y la Promoción ALESNER!</p>
+                    </div>
+                `;
+                triggerGoldConfetti();
+            }
+        }
+
+        // Muro de Deseos
+        function loadWishes() {
+            const list = document.getElementById('wishes-list');
+            if (!list) return;
+            const stored = JSON.parse(localStorage.getItem('stefany_wishes') || '[]');
+            
+            if (stored.length === 0) {
+                list.innerHTML = `<p class="text-[11px] text-gray-400 italic">Sé el primero en dejar un deseo en el muro...</p>`;
+                return;
+            }
+
+            list.innerHTML = stored.map(w => `
+                <div class="bg-[#121a10] p-2.5 rounded-xl border border-amber-500/20 text-xs">
+                    <p class="font-bold text-amber-300 text-[11px]">${escapeHtml(w.sender)}</p>
+                    <p class="text-gray-200 mt-0.5">${escapeHtml(w.msg)}</p>
+                </div>
+            `).join('');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>"']/g, function(m) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+            });
+        }
+
+        function addWishToWall() {
+            const sender = document.getElementById('wish-sender').value.trim();
+            const message = document.getElementById('wish-message').value.trim();
+
+            if (!sender || !message) {
+                showToast('Ingresa tu nombre y mensaje');
+                return;
+            }
+
+            const stored = JSON.parse(localStorage.getItem('stefany_wishes') || '[]');
+            stored.unshift({ sender, msg: message });
+            localStorage.setItem('stefany_wishes', JSON.stringify(stored));
+
+            document.getElementById('wish-sender').value = '';
+            document.getElementById('wish-message').value = '';
+            showToast('¡Mensaje publicado en el muro!');
+            loadWishes(); 
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.remove('opacity-0');
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+            }, 2500);
+        }
+
+        function toggleGifts() {
+            const giftDetails = document.getElementById('gift-details');
+            const chevron = document.getElementById('gift-chevron');
+            giftDetails.classList.toggle('hidden');
+            chevron.classList.toggle('rotate-180');
+        }
+
+        function copyToClipboard(text, message) {
+            const dummy = document.createElement('textarea');
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+            showToast(message);
+        }
+
+        function openRSVPModal() {
+            const modal = document.getElementById('rsvp-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeRSVPModal() {
+            const modal = document.getElementById('rsvp-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function handleRSVPSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('rsvp-name').value;
+            const status = document.getElementById('rsvp-status').value;
+            const guests = document.getElementById('rsvp-guests').value;
+
+            const text = `¡Hola Stefany! Confirmo mi asistencia a tu ceremonia de graduación de la Promoción ALESNER.%0A%0A*Nombre:* ${encodeURIComponent(name)}%0A*Asistencia:* ${encodeURIComponent(status)}%0A*Acompañantes:* ${encodeURIComponent(guests)}`;
+            
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+            closeRSVPModal();
+        }
+
+        function sendWishToWhatsApp() {
+            const sender = document.getElementById('wish-sender').value.trim();
+            const message = document.getElementById('wish-message').value.trim();
+
+            if (!sender || !message) {
+                showToast('Ingresa tu nombre y mensaje');
+                return;
+            }
+
+            const text = `🎓 *Mensaje de Felicitación para Stefany Contreras Auccatoma (Prom. ALESNER)*%0A%0A"${encodeURIComponent(message)}"%0A%0A- De: *${encodeURIComponent(sender)}*`;
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadWishes();
+            startTimelineAutoPlay();
+        });
+    </script>
+</body>
+</html>
